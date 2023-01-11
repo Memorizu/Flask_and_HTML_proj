@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from config import POST_PATH, COMMENTS_PATH
 from bp_posts.posts_dao import PostDao
-from bp_comments.comments_dao import CommentsDao
-
+from bp_posts.comments_dao import CommentsDao
 
 post_blueprint = Blueprint('post_blueprint', __name__)
 
@@ -26,3 +25,16 @@ def get_post(pk):
     return render_template('post.html', post=post, content=content, comments=comments, len_comments=len_comments)
 
 
+@post_blueprint.get('/search')
+def search_post():
+    post_dao = PostDao(POST_PATH)
+    query = request.args['s']
+    result = post_dao.search_for_posts(query)
+    return render_template('search.html', result=result, query=query)
+
+
+@post_blueprint.get('/users/<username>')
+def get_user_name(username):
+    post_dao_name = PostDao(POST_PATH)
+    posts = post_dao_name.get_posts_by_user(username)
+    return render_template('user-feed.html', posts=posts)

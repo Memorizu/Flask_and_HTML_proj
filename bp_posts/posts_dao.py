@@ -1,4 +1,5 @@
 import json
+from json import JSONDecodeError
 
 
 class PostDao:
@@ -10,8 +11,12 @@ class PostDao:
         return f"Путь: {self.path}"
 
     def load_posts(self):
-        with open(self.path, encoding='utf-8') as file:
-            return json.load(file)
+        try:
+            with open(self.path, encoding='utf-8') as file:
+                data = json.load(file)
+                return data
+        except JSONDecodeError:
+            return None
 
     def get_all_posts(self):
         return self.load_posts()
@@ -31,9 +36,13 @@ class PostDao:
 
     def search_for_posts(self, query):
         posts = self.get_all_posts()
+        lst_posts = []
         for post in posts:
             if query.lower() in post['content'].lower():
-                return post
+                print(post)
+                print(type(query))
+                lst_posts.append(post)
+        return lst_posts
 
     def get_post_by_pk(self, pk):
         posts = self.get_all_posts()
@@ -44,5 +53,6 @@ class PostDao:
             return
         except ValueError:
             return "Такого пользователя нет"
+
 
 

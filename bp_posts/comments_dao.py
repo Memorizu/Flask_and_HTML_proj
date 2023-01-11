@@ -27,5 +27,3 @@ class CommentsDao:
         except TypeError:
             return "Такого поста нет"
 
-
-
