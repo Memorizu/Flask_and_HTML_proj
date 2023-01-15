@@ -72,18 +72,20 @@ class PostDao:
         with open(BOOKMARKS_PATH, 'w', encoding='utf-8') as file:
             json.dump(data, file, indent=2, ensure_ascii=False)
 
-    def get_tags(self, tag_name):
-        data = self.get_all_posts()
-        tags = []
-        for post in data:
-            for word in post['content']:
-                if word[0] == '#':
-                    tags.append(word)
-        for tag in tags:
-            if tag == tag_name:
-                return tag
-
-
+#     def get_tags(self, tag_name):
+#         data = self.get_all_posts()
+#         tags = []
+#         for post in data:
+#             for word in post['content']:
+#                 if word.startswith('#'):
+#                     tags.append(word)
+#                     print(tags)
+#         for tag in tags:
+#             if tag == tag_name:
+#                 return tag
+#
+# a = PostDao('../../data/posts.json')
+# print(a.get_tags("еда"))
 
 
 

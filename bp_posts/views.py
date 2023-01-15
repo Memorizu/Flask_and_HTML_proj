@@ -65,9 +65,8 @@ def remove_bookmark(post_id):
     return redirect("/", code=302)
 
 
-@post_blueprint.get('/tag/<tag_name>')
-def tag_page(tag_name):
-    post_tags = PostDao(POST_PATH)
-    tags = post_tags.get_tags()
-
-    return render_template('tag.html')
+# @post_blueprint.get('/tag/<tag_name>')
+# def tag_page(tag_name):
+#     post_tags = PostDao(POST_PATH)
+#     tag = post_tags.get_tags(tag_name)
+#     return render_template('tag.html', tag=tag)

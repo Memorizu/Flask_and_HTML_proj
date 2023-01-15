@@ -16,6 +16,11 @@ class CommentsDao:
         return self.load_comments()
 
     def get_comments_by_post_id(self, post_pk):
+        """
+        return comments by post pk
+        :param post_pk: int
+        :return: list of comments
+        """
         post_dao = PostDao(POST_PATH)
         post = post_dao.get_post_by_pk(post_pk)
         try:
