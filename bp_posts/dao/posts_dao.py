@@ -1,5 +1,6 @@
 import json
 from json import JSONDecodeError
+from config import BOOKMARKS_PATH, POST_PATH
 
 
 class PostDao:
@@ -16,7 +17,7 @@ class PostDao:
                 data = json.load(file)
                 return data
         except JSONDecodeError:
-            return None
+            return
 
     def get_all_posts(self):
         return self.load_posts()
@@ -39,8 +40,6 @@ class PostDao:
         lst_posts = []
         for post in posts:
             if query.lower() in post['content'].lower():
-                print(post)
-                print(type(query))
                 lst_posts.append(post)
         return lst_posts
 
@@ -53,6 +52,38 @@ class PostDao:
             return
         except ValueError:
             return "Такого пользователя нет"
+
+    def add_post_to_bookmarks(self, post):
+        with open(BOOKMARKS_PATH, encoding='utf-8') as file:
+            data = json.load(file)
+        data.append(post)
+        with open(BOOKMARKS_PATH, 'w', encoding='utf-8') as file:
+            json.dump(data, file, indent=2, ensure_ascii=False)
+
+    def get_all_bookmarks(self):
+        with open(BOOKMARKS_PATH, encoding='utf-8') as file:
+            data = json.load(file)
+        return data
+
+    def delete_bookmark(self, post):
+        with open(BOOKMARKS_PATH, encoding='utf-8') as file:
+            data = json.load(file)
+        data.remove(post)
+        with open(BOOKMARKS_PATH, 'w', encoding='utf-8') as file:
+            json.dump(data, file, indent=2, ensure_ascii=False)
+
+    def get_tags(self, tag_name):
+        data = self.get_all_posts()
+        tags = []
+        for post in data:
+            for word in post['content']:
+                if word[0] == '#':
+                    tags.append(word)
+        for tag in tags:
+            if tag == tag_name:
+                return tag
+
+
 
 
 

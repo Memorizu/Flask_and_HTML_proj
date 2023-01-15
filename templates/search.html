@@ -30,7 +30,7 @@
               <input  type="search"  class="search__input" name="s">
           </label>
       </form>
-      <p class="search__results">Найдено постов: 11</p>
+      <p class="search__results">{{ len_result }}</p>
     </div>
 
     {% for post in result %}
@@ -47,7 +47,7 @@
             <a href="/post" class="item__post-link">
               <img src="{{ post.pic }}" alt="" width="348" class="item__post-img">
             </a>
-            <p class="item__descr"><a href="/tag.html" class="item__tag">#food</a> {{ post.content[:50] }}...</p>
+            <p class="item__descr"><a href="/tag/{{ tag_name }}" class="item__tag">{{ tag_name }}</a> {{ post.content[:50] }}...</p>
             <div class="item__post-info">
               <div class="item__counter">
                 <img src="../static/img/eye.png" alt="" class="item__counter-icon" width="26">

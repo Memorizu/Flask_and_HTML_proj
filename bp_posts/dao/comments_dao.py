@@ -1,4 +1,4 @@
-from bp_posts.posts_dao import PostDao
+from bp_posts.dao.posts_dao import PostDao
 import json
 from config import COMMENTS_PATH, POST_PATH
 
@@ -24,6 +24,6 @@ class CommentsDao:
                 if comment["post_id"] == post['pk']:
                     comments.append(comment)
             return comments
-        except TypeError:
+        except ValueError:
             return "Такого поста нет"
 
