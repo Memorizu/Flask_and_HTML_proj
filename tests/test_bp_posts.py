@@ -1,6 +1,7 @@
 import pytest
 
 from bp_posts.dao.posts_dao import PostDao
+from bp_posts.dao.comments_dao import CommentsDao
 
 
 @pytest.fixture
@@ -17,40 +18,40 @@ def post_number_1():
 
 
 @pytest.fixture
-def comments_7():
+def comments_1():
     return [{
-        "post_id": 7,
-        "commenter_name": "hanna",
-        "comment": "Очень необычная фоторафия! Где это?",
-        "pk": 20
+        "post_id": 1,
+        "commenter_name": "leo",
+        "comment": "Интересно. А где это?",
+        "pk": 4
     }]
 
 
 def test_get_post_by_pk(post_number_1):
-    post_dao = PostDao("data/posts.json")
-    post = [post_dao.get_post_by_pk(1)]
+    post_dao = PostDao("./data/posts.json")
+    post = post_dao.get_post_by_pk(1)
     assert post == post_number_1
 
 
 def test_get_posts_all():
-    post_dao = PostDao("data/posts.json")
+    post_dao = PostDao("./data/posts.json")
     len_posts = len(post_dao.get_all_posts())
     assert len_posts == 8
 
 
-def test_get_posts_by_user():
-    post_dao = PostDao("data/posts.json")
+def test_get_posts_by_user(post_number_1):
+    post_dao = PostDao("./data/posts.json")
     user_post = post_dao.get_posts_by_user('leo')
-    assert len(user_post) == 2
+    assert user_post == post_number_1
 
 
-def test_get_comments_by_post_id(comments_7):
-    post_dao = PostDao("data/posts.json")
-    comments = post_dao.get_post_by_pk(7)
-    assert comments == comments_7
+def test_get_comments_by_post_id(comments_1):
+    comments_dao = CommentsDao("./data/comments.json")
+    comment = comments_dao.get_comments_by_post_id(1)
+    assert comment == comments_1
 
 
 def test_search_for_posts(post_number_1):
-    post_dao = PostDao("data/posts.json")
+    post_dao = PostDao("./data/posts.json")
     search_posts = post_dao.search_for_posts('еда')
     assert search_posts == post_number_1
